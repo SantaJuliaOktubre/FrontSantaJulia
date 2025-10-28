@@ -129,7 +129,7 @@ function handleRoute(){
 }
 
 
-function viewLogin(){
+function viewLogin() {
     app.innerHTML = '';
     renderNavbar();
     const container = document.createElement('main');
@@ -140,45 +140,44 @@ function viewLogin(){
         <label>Email <input type="email" id="login-email" required /></label>
         <label>Contraseña <input type="password" id="login-pass" required /></label>
         <div class="row">
-        <button class="btn primary" type="submit">Ingresar</button>
-        <button id="goto-register" class="btn ghost" type="button">Registrarse</button>
+            <button class="btn primary" type="submit">Ingresar</button>
+            <button id="goto-register" class="btn ghost" type="button">Registrarse</button>
         </div>
-        <p class="muted">admin@food.com/admin123 o cliente@food.com/cliente123</p>
+        <p class="muted">(Ingresá un usuario ya registrado)</p>
     </form>
     `;
     app.appendChild(container);
 
     const form = document.getElementById('form-login') as HTMLFormElement;
     form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = (document.getElementById('login-email') as HTMLInputElement).value.trim();
-    const pass = (document.getElementById('login-pass') as HTMLInputElement).value;
+        e.preventDefault();
+        const email = (document.getElementById('login-email') as HTMLInputElement).value.trim();
+        const pass = (document.getElementById('login-pass') as HTMLInputElement).value;
 
-    const apiResp = await API.apiLogin(email, pass);
-    if (apiResp) {
-        writeStore('session', apiResp);
-        routeTo(apiResp.role === 'admin' ? '#/admin' : '#/home');
-        return;
-    }
-    const users = readStore('users', []);
-    const u = users.find((x: any) => x.email === email && x.pass === pass);
-    if (!u) {
-    Swal.fire({
-        title: 'Error',
-        text: 'Credenciales inválidas',
-        icon: 'error',
-        confirmButtonText: 'Aceptar'
-    });
-    return;
-}
-    writeStore('session', { id:u.id, name:u.name, email:u.email, role:u.role });
-    routeTo(u.role === 'admin' ? '#/admin' : '#/home');
+        try {
+            const apiResp = await API.apiLogin(email, pass);
+
+            if (!apiResp) {
+                throw new Error("No response from API");
+            }
+
+            writeStore('session', apiResp);
+
+            const role = apiResp.role?.toLowerCase();
+            routeTo(role === 'admin' ? '#/admin' : '#/home');
+
+        } catch(e) {
+            Swal.fire('Error', 'Credenciales inválidas', 'error');
+        }
     });
 
-    (document.getElementById('goto-register') as HTMLButtonElement).addEventListener('click', ()=> routeTo('#/register'));
+    (document.getElementById('goto-register') as HTMLButtonElement)
+        .addEventListener('click', () => routeTo('#/register'));
 }
 
-function viewRegister(){
+
+
+function viewRegister() {
     app.innerHTML = '';
     renderNavbar();
     const container = document.createElement('main');
@@ -197,21 +196,34 @@ function viewRegister(){
     `;
     app.appendChild(container);
 
-    (document.getElementById('form-register') as HTMLFormElement).addEventListener('submit', (e)=>{
-    e.preventDefault();
-    const name = (document.getElementById('reg-name') as HTMLInputElement).value.trim();
-    const email = (document.getElementById('reg-email') as HTMLInputElement).value.trim();
-    const pass = (document.getElementById('reg-pass') as HTMLInputElement).value;
-    const users = readStore('users', []);
-    if (users.find((u: any) => u.email === email)) { alert('Email ya registrado'); return; }
-    const id = (users.at(-1)?.id || 0) + 1;
-    const user = { id, name, email, pass, role: 'cliente' };
-    users.push(user);
-    writeStore('users', users);
-    writeStore('session', { id:user.id, name:user.name, email:user.email, role:user.role });
-    routeTo('#/home');
+    (document.getElementById('form-register') as HTMLFormElement)
+    .addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const name = (document.getElementById('reg-name') as HTMLInputElement).value.trim();
+        const email = (document.getElementById('reg-email') as HTMLInputElement).value.trim();
+        const pass = (document.getElementById('reg-pass') as HTMLInputElement).value;
+
+        try {
+            const resp = await API.apiRegister(name, email, pass);
+
+            if (!resp) {
+                Swal.fire('Error', 'No se pudo registrar', 'error');
+                return;
+            }
+
+            writeStore('session', resp);
+
+            const role = resp.role?.toLowerCase();
+            routeTo(role === 'admin' ? '#/admin' : '#/home');
+
+        } catch (err) {
+            Swal.fire('Error', 'Email ya registrado o problema en el servidor', 'error');
+        }
     });
-    (document.getElementById('goto-login') as HTMLButtonElement).addEventListener('click', ()=> routeTo('#/login'));
+
+    (document.getElementById('goto-login') as HTMLButtonElement)
+        .addEventListener('click', () => routeTo('#/login'));
 }
 
 function viewHomeClient() {
