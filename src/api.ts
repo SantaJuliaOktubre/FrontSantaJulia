@@ -19,6 +19,11 @@ async function request(path: string, method='GET', body?: any) {
 export async function apiLogin(email: string, pass: string) {
     return await request('/auth/login', 'POST', { email, password: pass });
 }
+
+export async function apiRegister(name: string, email: string, password: string) {
+    return await request('/auth/register', 'POST', { name, email, password });
+}
+
 export async function apiGetProducts() { return await request('/products'); }
 export async function apiGetCategories() { return await request('/categories'); }
 export async function apiCreateCategory(payload: Obj) { return await request('/categories', 'POST', payload); }
