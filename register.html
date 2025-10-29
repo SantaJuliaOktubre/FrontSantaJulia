@@ -24,7 +24,6 @@
 
   <div id="footer-slot"></div>
 
-  <!-- 1) Primero seed + parciales -->
   <script type="module">
     import { ensureSeed } from '/scripts/data-seed.js';
     import { loadPartials } from '/scripts/session.js';
@@ -32,6 +31,5 @@
     await loadPartials();
   </script>
 
-  <!-- 2) Después, la lógica del registro -->
   <script type="module" src="/scripts/register.js"></script>
 </body></html>

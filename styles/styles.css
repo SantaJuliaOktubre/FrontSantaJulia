@@ -1,31 +1,369 @@
-*{box-sizing:border-box} body{margin:0;font-family:system-ui,Arial}
-.container{display:grid;grid-template-columns:240px 1fr;gap:16px;padding:16px}
-.navbar, .footer{padding:12px 16px;background:#111;color:#fff}
-.navbar a{color:#fff;text-decoration:none}
-.brand{font-weight:700}
-.nav-links{display:flex;gap:12px;align-items:center;justify-content:flex-end}
-.badge{background:#e91e63;color:#fff;border-radius:999px;padding:2px 8px;font-size:.8rem}
-.card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
-.center-card{max-width:460px;margin:48px auto}
-.form label{display:block;margin:8px 0}
-.form input, select{width:100%;padding:8px;border:1px solid #ddd;border-radius:8px}
-.btn{padding:8px 12px;border-radius:10px;border:1px solid #ddd;background:#f7f7f7;cursor:pointer}
-.btn.primary{background:#111;color:#fff;border-color:#111}
-.btn.ghost{background:transparent}
-.btn.small{font-size:.9rem;padding:6px 10px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
-.kv{display:flex;gap:12px;align-items:center;justify-content:space-between}
-.muted{color:#666}
-.categories ul{list-style:none;margin:0;padding:0}
-.categories li{margin-bottom:6px}
-.categories button{width:100%;padding:8px;border-radius:8px;border:1px solid #ddd;background:#fff;cursor:pointer}
-.categories button.active{background:#111;color:#fff;border-color:#111}
-.product img{width:100%;height:140px;object-fit:contain;background:#fafafa;border-radius:8px}
+/* ======================================================
+Tema Santa Julia — Paleta Violeta Oscura Moderna
+   ====================================================== */
 
+:root {
+    --v-900: #1a002e;
+    --v-800: #2b004d;
+    --v-700: #3a0d6a;
+    --v-600: #5c1aa6;
+    --v-500: #7c3aed;
+    --v-300: #bb86fc;
+    --accent: #9b6ff6;
+    --bg: #12001f;
+    --card: #1d012e;
+    --text: #f5f5f5;
+    --muted: #9a9a9a;
+    --danger: #e63946;
+}
 
+/* ===========================
+    RESET Y BASE
+   =========================== */
+* {
+    box-sizing: border-box;
+}
 
-.toast{position:fixed;right:12px;top:12px;opacity:0;transform:translateY(-8px);transition:.2s;padding:8px 12px;border-radius:10px;background:#111;color:#fff;z-index:50}
-.toast.show{opacity:1;transform:none}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);display:grid;place-items:center;z-index:40}
-.modal{background:#fff;border-radius:12px;padding:16px;min-width:300px}
-.footer-links a{color:#fff;margin-right:10px}
+body {
+    margin: 0;
+    font-family: 'Poppins', system-ui, sans-serif;
+    background: linear-gradient(135deg, var(--v-900), var(--v-700));
+    color: var(--text);
+    min-height: 100vh;
+}
+
+/* ===========================
+    NAVBAR Y FOOTER
+   =========================== */
+#navbar-slot,
+#footer-slot {
+    width: 100%;
+}
+
+.navbar,
+.footer {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    color: var(--text);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand {
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: var(--v-300);
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.nav-links {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.navbar a {
+    color: var(--text);
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.navbar a:hover {
+    color: var(--accent);
+}
+
+.footer {
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 16px;
+    margin-top: 40px;
+}
+
+.footer a {
+    color: var(--accent);
+    margin: 0 8px;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+/* ===========================
+    LAYOUT Y CONTENEDORES
+   =========================== */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+}
+
+.card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+}
+
+.center-card {
+    max-width: 460px;
+    margin: 64px auto;
+}
+
+/* ===========================
+    FORMULARIOS
+   =========================== */
+.form label {
+    display: block;
+    margin: 10px 0 6px;
+    font-weight: 500;
+}
+
+.form input,
+.form select,
+.form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #3a0d6a;
+    border-radius: 8px;
+    background: #2b004d;
+    color: var(--text);
+}
+
+.form input:focus,
+.form textarea:focus,
+.form select:focus {
+    outline: none;
+    border-color: var(--v-500);
+    box-shadow: 0 0 6px var(--v-500);
+}
+
+/* ===========================
+    BOTONES
+   =========================== */
+.btn {
+    display: inline-block;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+    font-weight: 600;
+    text-align: center;
+}
+
+.btn.primary {
+    background: linear-gradient(90deg, var(--v-700), var(--v-500));
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.4);
+}
+
+.btn.primary:hover {
+    background: linear-gradient(90deg, var(--v-500), var(--v-300));
+}
+
+.btn.ghost {
+    background: transparent;
+    border: 1px solid var(--v-600);
+    color: var(--accent);
+}
+
+.btn.ghost:hover {
+    background: rgba(124, 58, 237, 0.2);
+}
+
+.btn.small {
+    font-size: 0.9rem;
+    padding: 6px 10px;
+}
+
+.btn.danger {
+    background: var(--danger);
+    color: #fff;
+    border: none;
+}
+
+.btn.danger:hover {
+    background: #c91f2e;
+}
+
+/* ===========================
+    TABLAS
+   =========================== */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card);
+    color: var(--text);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table th,
+.table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.table th {
+    text-align: left;
+    color: var(--v-300);
+    font-weight: 600;
+}
+
+/* ===========================
+    GRID Y LISTAS
+   =========================== */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.categories ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.categories li {
+    margin-bottom: 8px;
+}
+
+.categories button {
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #3a0d6a;
+    background: #2b004d;
+    color: var(--text);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.categories button.active,
+.categories button:hover {
+    background: var(--v-600);
+    color: #fff;
+    border-color: var(--v-500);
+}
+
+/* ===========================
+    PRODUCTOS Y CARDS
+   =========================== */
+.product img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 8px;
+    background: #2b004d;
+}
+
+.kv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.muted {
+    color: var(--muted);
+}
+
+.badge {
+    background: var(--v-600);
+    color: #fff;
+    border-radius: 999px;
+    padding: 3px 8px;
+    font-size: 0.8rem;
+}
+
+/* ===========================
+    LOGIN Y REGISTRO
+   =========================== */
+.auth-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--v-900), var(--v-700));
+    gap: 40px;
+}
+
+.auth-img {
+    width: 50%;
+    max-width: 520px;
+    border-radius: 16px;
+    box-shadow: 0 0 24px rgba(92, 26, 166, 0.4);
+}
+
+.auth-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 40px 32px;
+    width: 400px;
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.4);
+    text-align: center;
+}
+
+.auth-card h2 {
+    color: var(--v-300);
+    margin-bottom: 20px;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+.footer {
+    margin-top: auto;
+    background: rgba(0, 0, 0, 0.6);
+    color: var(--text);
+    text-align: center;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer p {
+    margin: 4px 0;
+    color: var(--muted);
+}
+
+.footer-links {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 6px;
+}
+
+.footer-links a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
