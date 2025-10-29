@@ -225,7 +225,7 @@ button{
   align-items:center
 }
 
-/* 🔹 Contenedor de categorías */
+/*  Contenedor de categorías */
 .categories {
   background: white;
   border-radius: 16px;
@@ -241,14 +241,14 @@ button{
   margin-bottom: 1rem;
 }
 
-/* 🔹 Lista limpia */
+/*  Lista limpia */
 .categories ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-/* 🔹 Cada categoría como botón */
+/*  Cada categoría como botón */
 .categories li {
   margin-bottom: 0.8rem;
 }
@@ -272,7 +272,7 @@ button{
   transform: translateX(3px);
 }
 
-/* 🔹 Categoría activa */
+/*  Categoría activa */
 .categories button.active {
   background: #4a148c;
   color: white;
@@ -332,4 +332,18 @@ main, .container, section {
     }
 
 }
+
+
+  /* boton register */
+  .btn.ghost {
+    background-color: transparent;
+    border: 1px solid #6a1b9a; /* tu color violeta */
+    color: #6a1b9a;
+}
+
+.btn.ghost:hover {
+    background-color: #6a1b9a;
+    color: white;
+}
+
 

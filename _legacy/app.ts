@@ -1,5 +1,7 @@
+//cambiar a index html home etc
+
 import * as API from './api';
-import { readStore, writeStore } from './utils/store';
+import { readStore, writeStore } from '../src/utils/store';
 import Swal from 'sweetalert2';
 
 const toast = Swal.mixin({
@@ -39,36 +41,38 @@ const SAMPLE_USERS = [
 ];
 
 const DEFAULT_CATEGORIES = [
-    { id: 1, name: 'Pizzas', description: 'Pizzas clásicas', image: '/img/pizza.png' },
-    { id: 2, name: 'Postres', description: 'Dulces', image: '/img/panqueques.png' },
-    { id: 3, name: 'Hamburguesas', description: 'Hamburguesas de la casa', image: '/img/lagranJulia.png' },
-    { id: 4, name: 'Bebidas', description: 'Bebidas frías', image: '/img/coca.png' }
+    { id: 1, name: 'Pizzas', description: 'Pizzas clásicas', image: 'img/pizza.png' },
+    { id: 2, name: 'Postres', description: 'Dulces', image: 'img/panqueques.png' },
+    { id: 3, name: 'Hamburguesas', description: 'Hamburguesas de la casa', image: 'img/cheeseburger.png' },
+    { id: 4, name: 'Bebidas', description: 'Bebidas frías', image: 'img/coca.png' }
 ];
+
 
 const DEFAULT_PRODUCTS = [
     // pizzas
-    { id: 1, name: 'Muzzarella', desc: 'Pizza clásica', price: 15000, stock: 10, categoryId: 1, image: '/img/pizza.png', available: true },
-    { id: 9, name: 'Fugazzetta', desc: 'Pizza con cebolla y mucho queso', price: 18000, stock: 8, categoryId: 1, image: '/img/fugazzetta.png', available: true },
-    { id: 11, name: 'Napolitana', desc: 'Pizza con tomate, ajo y orégano', price: 17000, stock: 5, categoryId: 1, image: '/img/napolitana.png', available: true },
-    { id: 12, name: 'Especial', desc: 'Jamón, morrón, huevo y aceitunas', price: 15000, stock: 4, categoryId: 1, image: '/img/especial.png', available: true },
+    { id: 1, name: 'Muzzarella', desc: 'Pizza clásica', price: 15000, stock: 10, categoryId: 1, image: 'img/pizza.png', available: true },
+    { id: 9, name: 'Fugazzetta', desc: 'Pizza con cebolla y mucho queso', price: 18000, stock: 8, categoryId: 1, image: 'img/fugazzetta.png', available: true },
+    { id: 11, name: 'Napolitana', desc: 'Pizza con tomate, ajo y orégano', price: 17000, stock: 5, categoryId: 1, image: 'img/napolitana.png', available: true },
+    { id: 12, name: 'Especial', desc: 'Jamón, morrón, huevo y aceitunas', price: 15000, stock: 4, categoryId: 1, image: 'img/especial.png', available: true },
 
     // postres
-    { id: 2, name: 'Panqueque', desc: 'Con dulce de leche', price: 4000, stock: 5, categoryId: 2, image: '/img/panqueques.png', available: true },
-    { id: 10, name: 'Helado', desc: 'Helado artesanal de crema', price: 2500, stock: 7, categoryId: 2, image: '/img/helado.png', available: true },
-    { id: 13, name: 'Tiramisú', desc: 'Postre italiano con café y cacao', price: 6000, stock: 6, categoryId: 2, image: '/img/tiramisu.png', available: true },
-    { id: 14, name: 'Cheesecake', desc: 'Tarta de queso con base de galleta', price: 5500, stock: 4, categoryId: 2, image: '/img/cheesecake.png', available: true },
+    { id: 2, name: 'Panqueque', desc: 'Con dulce de leche', price: 4000, stock: 5, categoryId: 2, image: 'img/panqueques.png', available: true },
+    { id: 10, name: 'Helado', desc: 'Helado artesanal de crema', price: 2500, stock: 7, categoryId: 2, image: 'img/helado.png', available: true },
+    { id: 13, name: 'Tiramisú', desc: 'Postre italiano con café y cacao', price: 6000, stock: 6, categoryId: 2, image: 'img/tiramisu.png', available: true },
+    { id: 14, name: 'Cheesecake', desc: 'Tarta de queso con base de galleta', price: 5500, stock: 4, categoryId: 2, image: 'img/cheesecake.png', available: true },
 
     // hamburguesas
-    { id: 3, name: 'Cheeseburger', desc: 'Hamburguesa con queso cheddar y panceta', price: 15000, stock: 8, categoryId: 3, image: '/img/cheeseburger.png', available: true },
-    { id: 4, name: 'La Gran Julia', desc: 'Doble carne, cheddar,  jamon , huevo, cebolla caramelizada', price: 17000, stock: 6, categoryId: 3, image: '/img/LagranJulia.png', available: true },
-    { id: 15, name: 'Santa Burguer', desc: 'Hamburguesa triple carne, cebolla crispy, mayonesa alioli, panceta, queso cheddar', price: 18000, stock: 5, categoryId: 3, image: '/img/santaburguer.png', available: true },
+    { id: 3, name: 'Cheeseburger', desc: 'Hamburguesa con queso cheddar y panceta', price: 15000, stock: 8, categoryId: 3, image: 'img/cheeseburger.png', available: true },
+    { id: 4, name: 'La Gran Julia', desc: 'Doble carne, cheddar, jamon , huevo, cebolla caramelizada', price: 17000, stock: 6, categoryId: 3, image: 'img/LagranJulia.png', available: true },
+    { id: 15, name: 'Santa Burguer', desc: 'Hamburguesa triple carne, cebolla crispy, mayonesa alioli, panceta, queso cheddar', price: 18000, stock: 5, categoryId: 3, image: 'img/santaburguer.png', available: true },
 
     // bebidas
-    { id: 5, name: 'Coca Cola', desc: 'Botella 500ml', price: 1500, stock: 15, categoryId: 4, image: '/img/coca.png', available: true },
-    { id: 6, name: 'Sprite', desc: 'Botella 500ml', price: 1500, stock: 12, categoryId: 4, image: '/img/sprite.png', available: true },
-    { id: 7, name: 'Fanta', desc: 'Botella 500ml', price: 1500, stock: 10, categoryId: 4, image: '/img/fanta.png', available: true },
-    { id: 8, name: 'Cerveza Corona', desc: 'Botella 355ml', price: 1800, stock: 8, categoryId: 4, image: '/img/corona.png', available: true }
+    { id: 5, name: 'Coca Cola', desc: 'Botella 500ml', price: 1500, stock: 15, categoryId: 4, image: 'img/coca.png', available: true },
+    { id: 6, name: 'Sprite', desc: 'Botella 500ml', price: 1500, stock: 12, categoryId: 4, image: 'img/sprite.png', available: true },
+    { id: 7, name: 'Fanta', desc: 'Botella 500ml', price: 1500, stock: 10, categoryId: 4, image: 'img/fanta.png', available: true },
+    { id: 8, name: 'Cerveza Corona', desc: 'Botella 355ml', price: 1800, stock: 8, categoryId: 4, image: 'img/corona.png', available: true }
 ];
+
 
 
 if(!readStore('users')) writeStore('users', SAMPLE_USERS);
@@ -79,6 +83,8 @@ if(!readStore('cart')) writeStore('cart', []);
 const app = document.getElementById('app') as HTMLElement;
 
 function renderNavbar() {
+    console.log("🔁 renderNavbar ejecutado");
+
     const session = readStore('session', null);
     const existing = document.querySelector('.navbar');
     if (existing) existing.remove();
@@ -158,7 +164,7 @@ function viewLogin() {
             const apiResp = await API.apiLogin(email, pass);
 
             if (!apiResp) {
-                throw new Error("No response from API");
+                throw new Error("Usuario no encontrado");
             }
 
             writeStore('session', apiResp);
@@ -166,7 +172,24 @@ function viewLogin() {
             const role = apiResp.role?.toLowerCase();
             routeTo(role === 'admin' ? '#/admin' : '#/home');
 
-        } catch(e) {
+        } catch (e: any) {
+
+            if (e?.message?.includes("Usuario no encontrado")) {
+                Swal.fire({
+                    title: "No encontramos tu cuenta",
+                    text: "¿Querés registrarte?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Registrarme",
+                    cancelButtonText: "Cancelar"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        routeTo('#/register');
+                    }
+                });
+                return;
+            }
+
             Swal.fire('Error', 'Credenciales inválidas', 'error');
         }
     });
@@ -174,6 +197,7 @@ function viewLogin() {
     (document.getElementById('goto-register') as HTMLButtonElement)
         .addEventListener('click', () => routeTo('#/register'));
 }
+
 
 
 
@@ -226,102 +250,100 @@ function viewRegister() {
         .addEventListener('click', () => routeTo('#/login'));
 }
 
-function viewHomeClient() {
+async function viewHomeClient() {
     const session = readStore('session', null);
     if (!session) return routeTo('#/login');
     app.innerHTML = '';
     renderNavbar();
 
-    (async () => {
-        const apiCats = await API.apiGetCategories();
-        const apiProds = await API.apiGetProducts();
-        const cats = apiCats ?? readStore('categories', []);
-        const prods = apiProds ?? readStore('products', []);
+    const apiCats = await API.apiGetCategories();
+    const apiProds = await API.apiGetProducts();
+    const cats = apiCats ?? readStore('categories', []);
+    const prods = apiProds ?? readStore('products', []);
 
-        const container = document.createElement('section');
-        container.className = 'container';
-        container.innerHTML = `
-            <aside class="categories">
-                <h3>Categorías</h3>
-                <ul id="categories-list"></ul>
-            </aside>
-            <section class="store">
-                <div class="store-header">
-                    <input id="search" placeholder="Buscar productos..." />
-                    <select id="sort">
-                        <option value="">Orden</option>
-                        <option value="name-asc">Nombre A-Z</option>
-                        <option value="price-asc">Precio ↑</option>
-                        <option value="price-desc">Precio ↓</option>
-                    </select>
-                </div>
-                <div id="products-grid" class="grid"></div>
-            </section>
-        `;
-        app.appendChild(container);
+    const container = document.createElement('section');
+    container.className = 'container';
+    container.innerHTML = `
+        <aside class="categories">
+            <h3>Categorías</h3>
+            <ul id="categories-list"></ul>
+        </aside>
+        <section class="store">
+            <div class="store-header">
+                <input id="search" placeholder="Buscar productos..." />
+                <select id="sort">
+                    <option value="">Orden</option>
+                    <option value="name-asc">Nombre A-Z</option>
+                    <option value="price-asc">Precio ↑</option>
+                    <option value="price-desc">Precio ↓</option>
+                </select>
+            </div>
+            <div id="products-grid" class="grid"></div>
+        </section>
+    `;
+    app.appendChild(container);
 
-        const categoriesList = document.getElementById('categories-list') as HTMLElement;
-        categoriesList.innerHTML = `<li><button class="active" data-cat="">Todas</button></li>`;
-        cats.forEach((c: any) => {
-            const li = document.createElement('li');
-            li.innerHTML = `<button data-cat="${c.id}">${c.name}</button>`;
-            categoriesList.appendChild(li);
+    const categoriesList = document.getElementById('categories-list') as HTMLElement;
+    categoriesList.innerHTML = `<li><button class="active" data-cat="">Todas</button></li>`;
+    cats.forEach((c: any) => {
+        const li = document.createElement('li');
+        li.innerHTML = `<button data-cat="${c.id}">${c.name}</button>`;
+        categoriesList.appendChild(li);
+    });
+
+    const grid = document.getElementById('products-grid') as HTMLElement;
+    const search = document.getElementById('search') as HTMLInputElement;
+    const sort = document.getElementById('sort') as HTMLSelectElement;
+
+    function renderProducts() {
+        const qtext = search.value.toLowerCase();
+        let list = prods.slice();
+        const selectedCat = categoriesList.querySelector('button.active')?.getAttribute('data-cat') || '';
+        if (selectedCat) list = list.filter((p: any) => p.categoryId == selectedCat);
+        if (qtext) list = list.filter((p: any) =>
+            p.name.toLowerCase().includes(qtext) ||
+            (p.desc || '').toLowerCase().includes(qtext)
+        );
+        const s = sort.value;
+        if (s === 'name-asc') list.sort((a: any, b: any) => a.name.localeCompare(b.name));
+        if (s === 'price-asc') list.sort((a: any, b: any) => a.price - b.price);
+        if (s === 'price-desc') list.sort((a: any, b: any) => b.price - a.price);
+
+        grid.innerHTML = '';
+        list.forEach((p: any) => {
+            const card = document.createElement('div');
+            card.className = 'product card';
+            card.innerHTML = `
+                <img src="${p.image || './img/default.png'}" alt="${p.name}">
+                <div class="kv"><strong>${p.name}</strong><span class="badge">${p.available ? 'Disponible' : 'No disponible'}</span></div>
+                <p class="muted">${p.desc || ''}</p>
+                <div class="kv"><div>$ ${p.price}</div><div><button class="btn small add-cart" data-id="${p.id}">Agregar</button></div></div>
+            `;
+            grid.appendChild(card);
         });
 
-        const grid = document.getElementById('products-grid') as HTMLElement;
-        const search = document.getElementById('search') as HTMLInputElement;
-        const sort = document.getElementById('sort') as HTMLSelectElement;
+        q('.add-cart').forEach(btn => btn.addEventListener('click', (e: any) => {
+            const id = Number((e.target as HTMLElement).getAttribute('data-id'));
+            addToCart(id, 1);
+        }));
+    }
 
-        function renderProducts() {
-            const qtext = search.value.toLowerCase();
-            let list = prods.slice();
-            const selectedCat = categoriesList.querySelector('button.active')?.getAttribute('data-cat') || '';
-            if (selectedCat) list = list.filter((p: any) => p.categoryId == selectedCat);
-            if (qtext) list = list.filter((p: any) =>
-                p.name.toLowerCase().includes(qtext) ||
-                (p.desc || '').toLowerCase().includes(qtext)
-            );
-            const s = sort.value;
-            if (s === 'name-asc') list.sort((a: any, b: any) => a.name.localeCompare(b.name));
-            if (s === 'price-asc') list.sort((a: any, b: any) => a.price - b.price);
-            if (s === 'price-desc') list.sort((a: any, b: any) => b.price - a.price);
+    categoriesList.querySelectorAll('button').forEach(btn =>
+        btn.addEventListener('click', (ev) => {
+            ev.preventDefault();
+            categoriesList.querySelectorAll('button').forEach(x => x.classList.remove('active'));
+            (ev.target as HTMLElement).classList.add('active');
+            renderProducts();
+        })
+    );
 
-            grid.innerHTML = '';
-            list.forEach((p: any) => {
-                const card = document.createElement('div');
-                card.className = 'product card';
-                card.innerHTML = `
-                    <img src="${p.image || 'https://via.placeholder.com/400x240?text=Producto'}" alt="${p.name}">
-                    <div class="kv"><strong>${p.name}</strong><span class="badge">${p.available ? 'Disponible' : 'No disponible'}</span></div>
-                    <p class="muted">${p.desc || ''}</p>
-                    <div class="kv"><div>$ ${p.price}</div><div><button class="btn small add-cart" data-id="${p.id}">Agregar</button></div></div>
-                `;
-                grid.appendChild(card);
-            });
+    search.addEventListener('input', renderProducts);
+    sort.addEventListener('change', renderProducts);
 
-            q('.add-cart').forEach(btn => btn.addEventListener('click', (e: any) => {
-                const id = Number((e.target as HTMLElement).getAttribute('data-id'));
-                addToCart(id, 1);
-            }));
-        }
-
-        // eventos
-        categoriesList.querySelectorAll('button').forEach(btn =>
-            btn.addEventListener('click', (ev) => {
-                ev.preventDefault();
-                categoriesList.querySelectorAll('button').forEach(x => x.classList.remove('active'));
-                (ev.target as HTMLElement).classList.add('active');
-                renderProducts();
-            })
-        );
-
-        search.addEventListener('input', renderProducts);
-        sort.addEventListener('change', renderProducts);
-
-        renderProducts(); 
-        renderFooter();
-    })();
+    renderProducts();
+    renderFooter();
 }
+
 
 
 function viewCart() {
@@ -648,6 +670,8 @@ function addToCart(productId: number, qty = 1) {
 }
 
 function renderFooter() {
+    console.log("🔁 renderFooter ejecutado");
+
     const existing = document.querySelector('.footer');
     if (existing) existing.remove();
 
@@ -668,11 +692,10 @@ function renderFooter() {
 }
 
 window.addEventListener('hashchange', handleRoute);
-window.addEventListener('load', handleRoute);
+handleRoute();
+
 
 export function initApp(){ 
-    handleRoute(); 
-    renderNavbar();
-    renderFooter(); 
+    handleRoute();  
 }
 

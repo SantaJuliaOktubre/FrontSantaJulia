@@ -1,14 +1,37 @@
-<!doctype html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Santa Julia</title>
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Santa Julia — Home</title>
+  <link rel="stylesheet" href="styles/styles.css" />
 </head>
 <body>
-  <div id="app"></div>
+  <div id="navbar-slot"></div>
 
-  <script type="module" src="./src/main.ts"></script>
-</body>
-</html>
+  <main class="container">
+    <aside class="categories">
+      <h3>Categorías</h3>
+      <ul id="categories-list"></ul>
+    </aside>
+    <section class="store">
+      <div class="store-header">
+        <input id="search" placeholder="Buscar productos..." />
+        <select id="sort">
+          <option value="">Orden</option>
+          <option value="name-asc">Nombre A-Z</option>
+          <option value="price-asc">Precio ↑</option>
+          <option value="price-desc">Precio ↓</option>
+        </select>
+      </div>
+      <div id="products-grid" class="grid"></div>
+    </section>
+  </main>
+
+  <div id="footer-slot"></div>
+
+  <script type="module">
+    import { ensureSeed } from './scripts/data-seed.js';
+    import { loadPartials } from './scripts/session.js';
+    import './scripts/home.js';
+    ensureSeed(); await loadPartials();
+  </script>
+</body></html>
