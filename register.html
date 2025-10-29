@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Registro</title>
+
+  <link rel="stylesheet" href="/styles/styles.css" />
+</head>
+<body>
+  <div id="navbar-slot"></div>
+
+  <main class="card center-card">
+    <h2>Registro</h2>
+    <form id="form-register" class="form">
+      <label>Nombre <input type="text" id="reg-name" required /></label>
+      <label>Email <input type="email" id="reg-email" required /></label>
+      <label>Contraseña <input type="password" id="reg-pass" required minlength="6" /></label>
+      <div class="row">
+        <button class="btn primary" type="submit">Crear cuenta</button>
+        <a class="btn ghost" href="login.html">Volver</a>
+      </div>
+    </form>
+  </main>
+
+  <div id="footer-slot"></div>
+
+  <!-- 1) Primero seed + parciales -->
+  <script type="module">
+    import { ensureSeed } from '/scripts/data-seed.js';
+    import { loadPartials } from '/scripts/session.js';
+    ensureSeed();
+    await loadPartials();
+  </script>
+
+  <!-- 2) Después, la lógica del registro -->
+  <script type="module" src="/scripts/register.js"></script>
+</body></html>

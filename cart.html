@@ -1,0 +1,20 @@
+<!DOCTYPE html><html lang="es">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Carrito</title>
+  <link rel="stylesheet" href="styles/styles.css" />
+</head>
+<body>
+  <div id="navbar-slot"></div>
+
+  <main class="container" id="cart-root"></main>
+
+  <div id="footer-slot"></div>
+
+  <script type="module">
+    import { ensureSeed } from './scripts/data-seed.js';
+    import { loadPartials } from './scripts/session.js';
+    import './scripts/cart.js';
+    ensureSeed(); await loadPartials();
+  </script>
+</body></html>

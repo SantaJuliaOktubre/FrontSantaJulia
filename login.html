@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="es">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Iniciar sesión</title>
+  <link rel="stylesheet" href="styles/styles.css" />
+</head>
+<body>
+  <div id="navbar-slot"></div>
+
+  <main class="card center-card">
+    <h2>Iniciar sesión</h2>
+    <form id="form-login" class="form">
+      <label>Email <input type="email" id="login-email" required /></label>
+      <label>Contraseña <input type="password" id="login-pass" required /></label>
+      <div class="row">
+        <button class="btn primary" type="submit">Ingresar</button>
+        <a class="btn ghost" href="register.html" type="button">Registrarse</a>
+      </div>
+      <p class="muted">(Ingresá un usuario ya registrado)</p>
+    </form>
+  </main>
+
+  <div id="footer-slot"></div>
+
+  <script type="module">
+    import { ensureSeed } from './scripts/data-seed.js';
+    import { loadPartials, setSession } from './scripts/session.js';
+    import { apiLogin } from './scripts/api.js';
+    ensureSeed(); await loadPartials();
+
+    const form = document.getElementById('form-login');
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim();
+      const pass  = document.getElementById('login-pass').value;
+      const u = await apiLogin(email, pass);
+      if (!u) {
+        if (confirm('No encontramos tu cuenta. ¿Querés registrarte?')) {
+          location.href = 'register.html'; return;
+        }
+        alert('Credenciales inválidas'); return;
+      }
+      setSession(u);
+      location.href = (u.role?.toLowerCase() === 'admin') ? 'admin.html' : 'index.html';
+    });
+  </script>
+</body></html>
