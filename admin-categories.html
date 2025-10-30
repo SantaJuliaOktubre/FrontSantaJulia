@@ -1,18 +1,53 @@
-<!DOCTYPE html><html lang="es">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Admin — Categorías</title><link rel="stylesheet" href="styles/styles.css"/></head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gestión de Categorías — Santa Julia</title>
+  <link rel="stylesheet" href="styles/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
 <body>
-  <div id="navbar-slot"></div>
   <main class="container">
-    <button id="btn-new" class="btn primary">Nueva categoría</button>
-    <div class="card"><h3>Categorías (Admin)</h3><div id="cats-area"></div></div>
+    <!-- Barra lateral -->
+    <aside class="admin-sidebar">
+      <h3>Administración</h3>
+      <a href="admin.html">Dashboard</a>
+      <a href="admin-categories.html" class="active">Categorías</a>
+      <a href="admin-products.html">Productos</a>
+      <a href="admin-orders.html">Pedidos</a>
+      <a href="index.html">Ver Tienda</a>
+    </aside>
+
+    <!-- Contenido principal -->
+    <section class="admin-content">
+      <div class="flex-between">
+        <h2>Gestión de Categorías</h2>
+        <button id="btn-new-cat" class="btn primary">+ Nueva Categoría</button>
+      </div>
+
+      <div class="card">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Imagen</th>
+              <th>Nombre</th>
+              <th>Descripción</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="cat-table-body"></tbody>
+        </table>
+      </div>
+    </section>
   </main>
-  <div id="footer-slot"></div>
-  <script type="module">
-    import { ensureSeed } from './scripts/data-seed.js';
-    import { loadPartials, getSession } from './scripts/session.js';
-    ensureSeed(); await loadPartials();
-    const s = getSession(); if (!s || s.role!=='admin') { location.href='index.html'; }
-    import './scripts/admin-categories.js';
-  </script>
-</body></html>
+
+  <footer class="footer">
+    © 2025 Santa Julia — Todos los derechos reservados.
+  </footer>
+
+  <script type="module" src="./scripts/admin-categories.js"></script>
+</body>
+</html>
+

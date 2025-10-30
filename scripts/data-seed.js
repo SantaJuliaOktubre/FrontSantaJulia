@@ -2,6 +2,10 @@ import { readStore, writeStore } from './store.js';
 
 const SAMPLE_USERS = [
   { id:1, name:'Admin', email:'admin@food.com', pass:'admin123', role:'admin'},
+  { id:2, name:'Enzo', email:'enzogadengra@gmail.com', pass: 'enzo123', role:'admin'},
+  { id:2, name:'Gonza', email:'gonza@gmail.com', pass: 'gonza123', role:'admin'},
+  { id:2, name:'Marti', email:'marti@gmail.com', pass: 'marti123', role:'admin'},
+  { id:2, name:'Maxi', email:'maxi@gmail.com', pass: 'maxi123', role:'admin'},
   { id:2, name:'Cliente', email:'cliente@food.com', pass:'cliente123', role:'cliente'}
 ];
 
@@ -11,6 +15,7 @@ const DEFAULT_CATEGORIES = [
   { id: 3, name: 'Hamburguesas', description: 'Hamburguesas de la casa', image: '/img/cheeseburger.png' },
   { id: 4, name: 'Bebidas', description: 'Bebidas frías', image: '/img/coca.png' }
 ];
+
 
 const DEFAULT_PRODUCTS = [
   { id: 1, name: 'Muzzarella',  desc:'Pizza clásica', price:15000, stock:10, categoryId:1, image:'/img/pizza.png', available:true },
