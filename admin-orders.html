@@ -1,17 +1,36 @@
-<!DOCTYPE html><html lang="es">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Admin — Pedidos</title><link rel="stylesheet" href="styles/styles.css"/></head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - Pedidos</title>
+  <link rel="stylesheet" href="styles/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
 <body>
-  <div id="navbar-slot"></div>
   <main class="container">
-    <div class="card"><h3>Pedidos (Admin)</h3><div id="orders-area"></div></div>
+    <aside class="admin-sidebar">
+      <h3>Administración</h3>
+      <a href="admin.html">Dashboard</a>
+      <a href="admin-categories.html">Categorías</a>
+      <a href="admin-products.html">Productos</a>
+      <a href="admin-orders.html" class="active">Pedidos</a>
+    </aside>
+
+    <section class="admin-content">
+      <h2>Gestión de Pedidos</h2>
+      <table class="table" id="orders-table">
+        <thead>
+          <tr><th>ID</th><th>Cliente</th><th>Total</th><th>Estado</th><th>Acciones</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
   </main>
-  <div id="footer-slot"></div>
-  <script type="module">
-    import { ensureSeed } from './scripts/data-seed.js';
-    import { loadPartials, getSession } from './scripts/session.js';
-    ensureSeed(); await loadPartials();
-    const s = getSession(); if (!s || s.role!=='admin') { location.href='index.html'; }
-    import './scripts/admin-orders.js';
-  </script>
-</body></html>
+
+  <footer class="footer">
+    © 2025 Santa Julia — Todos los derechos reservados.
+  </footer>
+
+  <script type="module" src="./scripts/admin-orders.js"></script>
+</body>
+</html>

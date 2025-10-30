@@ -1,8 +1,7 @@
 // scripts/api.js
 import { readStore, writeStore } from './store.js';
 
-// Cambiá esto:
-const USE_BACKEND = true; // ← true = usa Spring Boot; false = usa localStorage mock
+const USE_BACKEND = true;
 
 const BASE = 'http://localhost:8080/api';
 let token = localStorage.getItem('token') || null;
@@ -36,7 +35,6 @@ async function beGetProducts()   { return req('/products',   { method: 'GET' });
 async function beCreateOrder(order) { return req('/orders', { method:'POST', body: JSON.stringify(order) }); }
 async function beGetOrders()        { return req('/orders', { method:'GET' }); }
 
-// ---- MOCK (localStorage) ----
 async function mkLogin(email, pass) {
   const users = readStore('users', []);
   return users.find(u => u.email === email && u.pass === pass) || null;

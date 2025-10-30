@@ -1,18 +1,43 @@
-<!DOCTYPE html><html lang="es">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Admin — Productos</title><link rel="stylesheet" href="styles/styles.css"/></head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - Productos</title>
+  <link rel="stylesheet" href="styles/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
 <body>
-  <div id="navbar-slot"></div>
   <main class="container">
-    <button id="btn-new" class="btn primary">Nuevo producto</button>
-    <div class="card"><h3>Productos (Admin)</h3><div id="prods-area"></div></div>
+    <aside class="admin-sidebar">
+      <h3>Administración</h3>
+      <a href="admin.html">Dashboard</a>
+      <a href="admin-categories.html">Categorías</a>
+      <a href="admin-products.html" class="active">Productos</a>
+      <a href="admin-orders.html">Pedidos</a>
+    </aside>
+
+    <section class="admin-content">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <h2>Gestión de Productos</h2>
+        <button id="btn-new-prod" class="btn primary">+ Nuevo Producto</button>
+      </div>
+
+      <table class="table" id="prod-table">
+        <thead>
+          <tr>
+            <th>ID</th><th>Imagen</th><th>Nombre</th><th>Descripción</th>
+            <th>Precio</th><th>Categoría</th><th>Stock</th><th>Disponible</th><th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
   </main>
-  <div id="footer-slot"></div>
-  <script type="module">
-    import { ensureSeed } from './scripts/data-seed.js';
-    import { loadPartials, getSession } from './scripts/session.js';
-    ensureSeed(); await loadPartials();
-    const s = getSession(); if (!s || s.role!=='admin') { location.href='index.html'; }
-    import './scripts/admin-products.js';
-  </script>
-</body></html>
+
+  <footer class="footer">
+    © 2025 Santa Julia — Todos los derechos reservados.
+  </footer>
+
+  <script type="module" src="./scripts/admin-products.js"></script>
+</body>
+</html>

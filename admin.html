@@ -1,29 +1,77 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin — Dashboard</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Panel de Administración — Santa Julia</title>
   <link rel="stylesheet" href="styles/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-  <div id="navbar-slot"></div>
-
   <main class="container">
-    <div class="card">
-      <h3>Dashboard</h3>
-      <div class="row" style="gap:8px">
-        <a class="btn" href="admin-categories.html">Categorías</a>
-        <a class="btn" href="admin-products.html">Productos</a>
-        <a class="btn" href="admin-orders.html">Pedidos</a>
+    <!-- Barra lateral -->
+    <aside class="admin-sidebar">
+      <h3>Administración</h3>
+      <a href="admin.html" class="active">Dashboard</a>
+      <a href="admin-categories.html">Categorías</a>
+      <a href="admin-products.html">Productos</a>
+      <a href="admin-orders.html">Pedidos</a>
+      <a href="index.html">Ver Tienda</a>
+    </aside>
+
+    <!-- Contenido principal -->
+    <section class="admin-content">
+      <h2>Panel de Administración</h2>
+      <div class="admin-cards">
+        <div class="admin-card purple" onclick="location.href='admin-categories.html'">
+          <h3>Categorías</h3>
+          <p id="cat-count">0</p>
+          <span>Gestionar</span>
+        </div>
+
+        <div class="admin-card pink" onclick="location.href='admin-products.html'">
+          <h3>Productos</h3>
+          <p id="prod-count">0</p>
+          <span>Gestionar</span>
+        </div>
+
+        <div class="admin-card blue" onclick="location.href='admin-orders.html'">
+          <h3>Pedidos</h3>
+          <p id="order-count">0</p>
+          <span>Gestionar</span>
+        </div>
+
+        <div class="admin-card green">
+          <h3>Disponibles</h3>
+          <p id="avail-count">0</p>
+          <span>Activos</span>
+        </div>
       </div>
-    </div>
+
+      <div class="card" style="margin-top: 24px;">
+        <h3>Resumen rápido</h3>
+        <p class="muted">Cargando estadísticas...</p>
+      </div>
+    </section>
   </main>
 
-  <div id="footer-slot"></div>
+  <footer class="footer">
+    © 2025 Santa Julia — Todos los derechos reservados.
+  </footer>
 
   <script type="module">
     import { ensureSeed } from './scripts/data-seed.js';
-    import { loadPartials, getSession } from './scripts/session.js';
-    ensureSeed(); await loadPartials();
-    const s = getSession(); if (!s || s.role!=='admin') location.href='index.html';
+    import { readStore } from './scripts/store.js';
+    ensureSeed();
+
+    const cats = readStore('categories', []);
+    const prods = readStore('products', []);
+    const orders = readStore('orders', []);
+
+    document.getElementById('cat-count').textContent = cats.length;
+    document.getElementById('prod-count').textContent = prods.length;
+    document.getElementById('order-count').textContent = orders.length;
+    document.getElementById('avail-count').textContent = prods.filter(p => p.available).length;
   </script>
-</body></html>
+</body>
+</html>

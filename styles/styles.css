@@ -367,3 +367,208 @@ main {
 .footer-links a:hover {
     text-decoration: underline;
 }
+
+
+/* ==============================
+    ADMIN PANEL VIOLETA OSCURO
+============================== */
+:root {
+    --violet-dark: #0b0014;
+    --violet-mid: #2a0a4e;
+    --violet-light: #5a1fa2;
+    --violet-accent: #8e44ff;
+    --text-light: #f3f3f3;
+}
+
+body {
+    background: linear-gradient(180deg, var(--violet-dark), var(--violet-mid));
+    color: var(--text-light);
+}
+
+/* Panel general */
+.container {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 16px;
+    padding: 24px;
+}
+
+/* Sidebar */
+aside.admin-sidebar {
+    background: var(--violet-mid);
+    border-radius: 16px;
+    padding: 16px;
+    color: #fff;
+    min-height: calc(100vh - 80px);
+}
+
+aside.admin-sidebar h3 {
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+aside.admin-sidebar a {
+    display: block;
+    color: #fff;
+    padding: 8px 12px;
+    margin-top: 4px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+aside.admin-sidebar a:hover,
+aside.admin-sidebar a.active {
+    background: var(--violet-accent);
+}
+
+/* Main card area */
+.admin-content {
+    background: rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* Botones */
+.btn.primary {
+    background: var(--violet-accent);
+    color: white;
+    border: none;
+}
+
+.btn.danger {
+    background: #c0392b;
+    color: white;
+}
+
+/* Tablas */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th {
+    text-align: left;
+    background: var(--violet-mid);
+    color: var(--text-light);
+    padding: 8px;
+}
+
+.table td {
+    padding: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.table img.thumb {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* Footer */
+.footer {
+    background: linear-gradient(180deg, #1a002e, #3b0066);
+    color: #ddd;
+    text-align: center;
+    padding: 16px;
+    margin-top: 40px; 
+}
+
+/* ===== ADMIN DASHBOARD ===== */
+.admin-sidebar {
+    background: linear-gradient(180deg, #150021, #220032);
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 100vh;
+}
+
+.admin-sidebar h3 {
+    color: #b87fff;
+    margin-bottom: 10px;
+}
+
+.admin-sidebar a {
+    color: #ddd;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.admin-sidebar a:hover {
+    background: #3a0060;
+}
+
+.admin-sidebar a.active {
+    background: #6300b8;
+    color: #fff;
+}
+
+.admin-content {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+}
+
+.admin-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.admin-card {
+    border-radius: 12px;
+    padding: 20px;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-align: center;
+}
+
+.admin-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+}
+
+.admin-card h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.admin-card p {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 8px 0;
+}
+
+.admin-card span {
+    font-size: 0.9rem;
+    color: #ddd;
+}
+
+/* Colores para cada tarjeta */
+.admin-card.purple {
+    background: linear-gradient(135deg, #4b0082, #8a2be2);
+}
+
+.admin-card.pink {
+    background: linear-gradient(135deg, #b300b3, #ff33cc);
+}
+
+.admin-card.blue {
+    background: linear-gradient(135deg, #1e00b3, #3399ff);
+}
+
+.admin-card.green {
+    background: linear-gradient(135deg, #006633, #00cc66);
+}
+
