@@ -3,7 +3,8 @@ import { readStore, writeStore } from './store.js';
 
 const USE_BACKEND = true;
 
-const BASE = 'http://localhost:8080/api';
+// Cambiar al puerto donde está corriendo tu backend
+const BASE = 'http://localhost:8081/api';
 let token = localStorage.getItem('token') || null;
 
 async function req(path, opts = {}) {
@@ -12,29 +13,41 @@ async function req(path, opts = {}) {
     ...(token ? { Authorization: `Bearer ${token}` } : {})
   };
   const r = await fetch(`${BASE}${path}`, { ...opts, headers });
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  if (!r.ok) {
+    const text = await r.text();
+    throw new Error(text || `HTTP ${r.status}`);
+  }
   return r.status === 204 ? null : r.json();
 }
 
+// Backend login
 async function beLogin(email, pass) {
-  const data = await req('/auth/login', { method: 'POST', body: JSON.stringify({ email, password: pass }) });
+  const data = await req('/auth/login', { 
+    method: 'POST', 
+    body: JSON.stringify({ email, password: pass }) 
+  });
   token = data.token || null;
   if (token) localStorage.setItem('token', token);
   return { id: data.id, name: data.name, email: data.email, role: data.role };
 }
 
+// Backend register
 async function beRegister(name, email, pass) {
-  const data = await req('/auth/register', { method: 'POST', body: JSON.stringify({ name, email, password: pass }) });
-  token = data.token || null;
-  if (token) localStorage.setItem('token', token);
+  const data = await req('/auth/register', { 
+    method: 'POST', 
+    body: JSON.stringify({ name, email, password: pass }) 
+  });
+  // No hay token al registrar, solo devolvemos el user
   return { id: data.id, name: data.name, email: data.email, role: data.role };
 }
 
+// Otras funciones de backend
 async function beGetCategories() { return req('/categories', { method: 'GET' }); }
 async function beGetProducts()   { return req('/products',   { method: 'GET' }); }
 async function beCreateOrder(order) { return req('/orders', { method:'POST', body: JSON.stringify(order) }); }
 async function beGetOrders()        { return req('/orders', { method:'GET' }); }
 
+// Mock functions (local)
 async function mkLogin(email, pass) {
   const users = readStore('users', []);
   return users.find(u => u.email === email && u.pass === pass) || null;
