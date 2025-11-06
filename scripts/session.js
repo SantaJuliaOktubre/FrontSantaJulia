@@ -33,7 +33,6 @@ export async function loadPartials() {
   // === Navbar ===
   const navHolder = document.getElementById('navbar-slot');
   if (navHolder) {
-    // ✅ RUTA RELATIVA COMPATIBLE
     const html = await fetch('partials/navbar.html').then(r => r.text());
     navHolder.innerHTML = html;
 

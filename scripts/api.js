@@ -44,7 +44,7 @@ async function beRegister(name, email, pass) {
 // Otras funciones de backend
 async function beGetCategories() { return req('/categories', { method: 'GET' }); }
 async function beGetProducts()   { return req('/products',   { method: 'GET' }); }
-async function beCreateOrder(order) { return req('/orders', { method:'POST', body: JSON.stringify(order) }); }
+async function beCreateOrder(order) { return req('/pedidos', { method:'POST', body: JSON.stringify(order) }); }
 async function beGetOrders()        { return req('/orders', { method:'GET' }); }
 
 // Mock functions (local)
