@@ -1,6 +1,7 @@
 import { readStore, writeStore } from './store.js';
 import { getSession, updateCartCount } from './session.js';
 import { confirmBox } from './ui.js';
+import { apiCreateOrder } from './api.js';
 
 (function init(){
   const s = getSession(); if (!s) { location.href = 'login.html'; return; }
@@ -79,17 +80,31 @@ import { confirmBox } from './ui.js';
     }
   });
   right.querySelector('#btn-checkout').addEventListener('click', async ()=>{
-    const ok = await confirmBox('¿Confirmar pedido?', `Total a pagar: $${subtotal+500}`);
-    if (!ok) return;
-    const orders = readStore('orders', []);
-    const id = (orders.at(-1)?.id || 0) + 1;
-    orders.push({
-      id, userId: s.id, items: cart, total: subtotal+500, status:'pending', date: new Date().toISOString()
-    });
-    writeStore('orders', orders);
-    writeStore('cart', []); updateCartCount();
-    alert(`Pedido confirmado (ID: ${id})`); location.href = 'index.html';
-  });
+  const ok = await confirmBox('¿Confirmar pedido?', `Total a pagar: $${subtotal+500}`);
+  if (!ok) return;
+
+  const payload = {
+    cliente: s.email || s.name || 'cliente',
+    telefono: '',
+    direccion: '',
+    subtotal: subtotal,
+    totalItems: cart.reduce((a,b)=> a + (b.qty||0), 0),
+    itemsJson: JSON.stringify(cart)
+  };
+
+  try {
+    const resp = await apiCreateOrder(payload);
+    if (!resp) throw new Error('No se pudo crear el pedido');
+
+    writeStore('cart', []);
+    updateCartCount();
+    Swal.fire('Pedido confirmado','Tu pedido fue registrado con éxito','success')
+      .then(()=> location.href='my-orders.html');
+  } catch (err) {
+    console.error(err);
+    Swal.fire('Error','No se pudo registrar el pedido: ' + err.message,'error');
+  }
+});
 
   function changeQty(productId, delta){
     const cart = readStore('cart', []);
