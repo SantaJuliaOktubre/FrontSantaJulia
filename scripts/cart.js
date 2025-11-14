@@ -1,7 +1,50 @@
+// ...existing code...
 import { readStore, writeStore } from './store.js';
 import { getSession, updateCartCount } from './session.js';
 import { confirmBox } from './ui.js';
 import { apiCreateOrder } from './api.js';
+
+// helper: carga SweetAlert2 si no está y muestra un success con sonido
+async function showSuccessToast(title, htmlText, redirectUrl) {
+  // carga SweetAlert2 si no existe
+  if (!window.Swal) {
+    await new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/sweetalert2@11';
+      s.onload = resolve;
+      s.onerror = reject;
+      document.head.appendChild(s);
+    }).catch(() => {
+      // si no se pudo cargar, fallback a alert
+      try { new Audio('https://cdn.pixabay.com/audio/2022/03/15/audio_1c6c06f7b7.mp3').play().catch(()=>{}); } catch(e){}
+      alert(title + '\n' + (htmlText || ''));
+      if (redirectUrl) location.href = redirectUrl;
+      return;
+    });
+  }
+
+  // ahora Swal está disponible
+  try {
+    // intentar reproducir sonido (puede fallar por autoplay policies)
+    const audio = new Audio('https://cdn.pixabay.com/audio/2022/03/15/audio_1c6c06f7b7.mp3');
+    audio.play().catch(()=>{}); // ignore error
+
+    await Swal.fire({
+      title: title || '¡Éxito!',
+      html: htmlText || '',
+      icon: 'success',
+      showConfirmButton: false,
+      timer: 1800
+    });
+
+    if (redirectUrl) location.href = redirectUrl;
+  } catch (e) {
+    // fallback
+    try { new Audio('https://cdn.pixabay.com/audio/2022/03/15/audio_1c6c06f7b7.mp3').play().catch(()=>{}); } catch(ex){}
+    alert(title + '\n' + (htmlText || ''));
+    if (redirectUrl) location.href = redirectUrl;
+  }
+}
 
 (function init() {
   const s = getSession();
@@ -24,6 +67,7 @@ import { apiCreateOrder } from './api.js';
   } else {
     left.innerHTML = '<div class="card"><h3>Carrito</h3><div id="cart-items"></div></div>';
     const listEl = left.querySelector('#cart-items');
+
     cart.forEach(c => {
       const p = products.find(pr => pr.id === c.productId) || { name: 'Producto desconocido', price: 0, image: 'https://via.placeholder.com/64' };
       const row = document.createElement('div');
@@ -46,18 +90,20 @@ import { apiCreateOrder } from './api.js';
       listEl.appendChild(row);
     });
 
-    // botones + event listeners
+    // botones + event listeners (usar la misma listEl)
     listEl.querySelectorAll('.incdec').forEach(b => {
       b.addEventListener('click', e => {
-        const id = Number(e.target.getAttribute('data-id'));
-        const delta = Number(e.target.getAttribute('data-op'));
+        // usar closest para evitar problemas con iconos u otros elementos
+        const btn = e.currentTarget;
+        const id = Number(btn.getAttribute('data-id'));
+        const delta = Number(btn.getAttribute('data-op'));
         changeQty(id, delta);
       });
     });
 
     listEl.querySelectorAll('.del').forEach(b => {
       b.addEventListener('click', async e => {
-        const id = Number(e.target.getAttribute('data-id'));
+        const id = Number(e.currentTarget.getAttribute('data-id'));
         if (await confirmBox('¿Eliminar producto?', 'Se quitará del carrito')) removeFromCart(id);
       });
     });
@@ -93,7 +139,14 @@ import { apiCreateOrder } from './api.js';
     const ok = await confirmBox('¿Confirmar pedido?', `Total a pagar: $${subtotal + 500}`);
     if (!ok) return;
 
-    if (!cart.length) return alert('El carrito está vacío');
+    if (!cart.length) {
+      if (window.Swal) {
+        Swal.fire({ icon: 'info', title: 'Carrito vacío', text: 'No hay productos en el carrito.' });
+      } else {
+        alert('El carrito está vacío');
+      }
+      return;
+    }
 
     const payload = {
       cliente: s.email || s.name || 'cliente',
@@ -101,21 +154,51 @@ import { apiCreateOrder } from './api.js';
       direccion: '',
       subtotal: subtotal,
       totalItems: cart.reduce((a, b) => a + (b.qty || 0), 0),
-      estado: "recibido",
+      // estado eliminado: lo maneja el backend
       itemsJson: JSON.stringify(cart)
     };
 
     try {
       const resp = await apiCreateOrder(payload);
-      if (!resp) throw new Error('No se pudo crear el pedido');
 
+      // Manejo robusto de la respuesta: aceptar objeto JSON o throw anterior
+      if (!resp || (typeof resp === 'object' && (resp.id == null && !resp.error && !resp.message))) {
+        throw Object.assign(new Error('No se pudo crear el pedido'), { status: resp && resp.status });
+      }
+
+      // Si el backend devolvió un error dentro del JSON, propagarlo
+      if (resp && (resp.error || resp.message)) {
+        throw Object.assign(new Error(resp.error || resp.message), { status: resp.status });
+      }
+
+      // Éxito esperado: resp.id disponible
       writeStore('cart', []);
       updateCartCount();
-      alert(`Pedido confirmado (ID: ${resp.id})`);
-      location.href = 'my-orders.html';
+
+      await showSuccessToast('¡Pedido confirmado!', `Tu pedido fue registrado (ID: ${resp.id ?? '—'}).`, 'my-orders.html');
     } catch (err) {
       console.error(err);
-      alert('Error al registrar el pedido: ' + err.message);
+
+      const msg = err && err.message ? err.message : String(err);
+
+      // Manejar conflicto de stock (409) o mensajes que contengan 'stock'
+      if ((err && err.status === 409) || (msg && msg.toLowerCase().includes('stock'))) {
+        const text = msg || 'Stock insuficiente para algunos productos. Actualiza el carrito.';
+        if (window.Swal) {
+          Swal.fire({ icon: 'warning', title: 'Stock insuficiente', text });
+        } else {
+          alert(text);
+        }
+        // opcional: recargar para sincronizar stock local
+        // location.reload();
+        return;
+      }
+
+      if (window.Swal) {
+        Swal.fire({ icon: 'error', title: 'Error', text: msg || 'Error al registrar el pedido' });
+      } else {
+        alert('Error al registrar el pedido: ' + (msg || err));
+      }
     }
   });
 
